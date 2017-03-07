@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.lyk.forwater">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/pp"
+        android:label="water"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity
+            android:name=".activities.MainActivity"
+            android:launchMode="singleTask" />
+        <activity
+            android:name=".activities.InfoActivity"
+            android:launchMode="singleTask"
+            android:theme="@style/AppTheme" />
+        <activity android:name=".activities.RegisterActivity" />
+        <activity android:name=".activities.LoginActivity" />
+        <activity android:name=".activities.PhotoActivity" />
+        <activity android:name=".activities.ChatActivity" />
+        <activity
+            android:name=".activities.LanuchActivity"
+            android:theme="@style/ThemeFullScreen">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".activities.AnimationActivity"
+            android:theme="@style/Transparent" />
+
+        <service
+            android:name=".services.MyService"
+            android:enabled="true"
+            android:exported="false"
+            android:process=":remote" />
+
+        <activity android:name=".activities.AddFriendActivity" />
+        <activity android:name=".activities.FeedbackActivity" />
+        <activity android:name=".activities.MyFriendsActivity" />
+        <activity android:name=".activities.RecentActivity" />
+        <activity android:name=".activities.RankingActivity" />
+        <activity android:name=".activities.MyFeedbackActivity" />
+        <activity android:name=".activities.ContactActivity"></activity>
+    </application>
+
+</manifest>

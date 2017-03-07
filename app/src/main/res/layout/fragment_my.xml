@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/white">
+
+        <RelativeLayout
+            android:id="@+id/friend"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="0dp"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_gravity="center_vertical"
+                android:layout_margin="18dp"
+                android:gravity="center"
+                android:text="我的好友"
+                android:textColor="@color/blue"
+                android:textSize="20sp" />
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_alignParentRight="true"
+                android:layout_margin="10dp"
+                android:src="@mipmap/forward" />
+
+        </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/divder1"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_below="@id/friend"
+            android:layout_marginTop="0dp"
+            android:background="@drawable/bg_divider" />
+
+        <RelativeLayout
+            android:id="@+id/paiming"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/divder1"
+            android:layout_marginTop="0dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_margin="18dp"
+                android:gravity="center"
+                android:text="公益排名"
+                android:textColor="@color/blue"
+                android:textSize="20sp" />
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_alignParentRight="true"
+                android:layout_margin="10dp"
+                android:src="@mipmap/forward" />
+
+        </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/divder2"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_below="@id/paiming"
+            android:layout_marginTop="0dp"
+            android:background="@drawable/bg_divider" />
+
+        <RelativeLayout
+            android:id="@+id/myfeedback"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/divder2"
+            android:layout_marginTop="0dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_margin="18dp"
+                android:gravity="center"
+                android:text="我的反馈"
+                android:textColor="@color/blue"
+                android:textSize="20sp" />
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_alignParentRight="true"
+                android:layout_margin="10dp"
+                android:src="@mipmap/forward" />
+
+        </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/divder3"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_below="@id/myfeedback"
+            android:layout_marginTop="0dp"
+            android:background="@drawable/bg_divider" />
+
+        <RelativeLayout
+            android:id="@+id/recentwater"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/divder3"
+            android:layout_marginTop="0dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_margin="18dp"
+                android:gravity="center"
+                android:text="近日饮水"
+                android:textColor="@color/blue"
+                android:textSize="20sp" />
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_alignParentRight="true"
+                android:layout_margin="10dp"
+                android:src="@mipmap/forward" />
+
+        </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/divder4"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_below="@id/recentwater"
+            android:layout_marginTop="0dp"
+            android:background="@drawable/bg_divider" />
+
+        <RelativeLayout
+            android:id="@+id/contact"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/divder4"
+            android:layout_marginTop="0dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_margin="18dp"
+                android:gravity="center"
+                android:text="联系我们"
+                android:textColor="@color/blue"
+                android:textSize="20sp" />
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_alignParentRight="true"
+                android:layout_margin="10dp"
+                android:src="@mipmap/forward" />
+
+        </RelativeLayout>
+
+
+    </RelativeLayout>
+
+</android.support.design.widget.CoordinatorLayout>

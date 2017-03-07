@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context="com.example.lyk.forwater.activities.FeedbackActivity">
+
+        <include layout="@layout/toobar"></include>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_marginBottom="20dp"
+            android:orientation="vertical"
+            android:id="@+id/activity_feedback">
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <com.example.lyk.forwater.activities.RoundImageView
+                    android:id="@+id/img"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@id/img"
+                    android:orientation="vertical"
+                    android:layout_marginLeft="10dp"
+                    >
+
+                    <TextView
+                        android:id="@+id/name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@android:color/black"/>
+
+                    <TextView
+                        android:id="@+id/time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@android:color/black"
+                        />
+                    />
+                </LinearLayout>
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/content"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:textColor="@android:color/black"/>
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/loadimg"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:visibility="gone"
+                    android:src="@drawable/src_load"/>
+
+                <TextView
+                    android:id="@+id/load"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="加载更多"
+                    android:visibility="gone"
+                    android:textColor="@android:color/black"/>
+            </LinearLayout>
+        </RelativeLayout>
+
+    </LinearLayout>
+</ScrollView>

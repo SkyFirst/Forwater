@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/white"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/score"
+            android:layout_width="wrap_content"
+            android:layout_height="250dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="50dp"
+            app:srcCompat="@mipmap/pp" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="40dp"
+            android:background="@drawable/bg_score1"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:text="今日已喝："
+                android:textColor="@color/darkblue"
+                android:textSize="22sp" />
+
+            <TextView
+                android:id="@+id/haswater"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="20dp"
+                android:text="点击获取"
+                android:textColor="@color/darkblue"
+                android:textSize="22sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="30dp"
+            android:background="@drawable/bg_score1"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:text="我的积分："
+                android:textColor="@color/darkblue"
+                android:textSize="22sp" />
+
+            <TextView
+                android:id="@+id/hasscore"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="20dp"
+                android:text="点击获取"
+                android:textColor="@color/darkblue"
+                android:textSize="22sp" />
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_water"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="16dp"
+        android:src="@mipmap/add"
+        app:backgroundTint="@color/blue"
+        app:borderWidth="0dp"
+        app:elevation="6dp"
+        app:fabSize="normal"
+        app:pressedTranslationZ="12dp"
+        app:rippleColor="@color/darkblue" />
+</android.support.design.widget.CoordinatorLayout>

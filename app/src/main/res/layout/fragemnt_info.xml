@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="30dp"
+    android:background="@android:color/white"
+    android:clipChildren="false"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <com.example.lyk.forwater.activities.MySwipeRefreshLayout
+        android:id="@+id/swipe_container"
+        android:layout_width="match_parent"
+        android:layout_height="350dp">
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <android.support.v4.view.ViewPager
+                android:id="@+id/viewPager"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:clipChildren="false" />
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal|bottom"
+                android:layout_marginBottom="20dp"
+                android:gravity="center">
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:id="@+id/circle1"
+                    android:background="@drawable/circle_null"
+                        android:layout_margin="5dp"/>
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:id="@+id/circle2"
+                        android:background="@drawable/circle_null"
+                        android:layout_margin="5dp"/>
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:id="@+id/circle3"
+                        android:background="@drawable/circle_null"
+                        android:layout_margin="5dp"/>
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:id="@+id/circle4"
+                        android:background="@drawable/circle_null"
+                        android:layout_margin="5dp"/>
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:id="@+id/circle5"
+                        android:background="@drawable/circle_null"
+                        android:layout_margin="5dp"/>
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:id="@+id/circle6"
+                        android:background="@drawable/circle_null"
+                        android:layout_margin="5dp"/>
+                </LinearLayout>
+            </RelativeLayout>
+        </FrameLayout>
+    </com.example.lyk.forwater.activities.MySwipeRefreshLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:id="@+id/savewater"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/bg_box">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="20dp"
+                android:text="节水"
+                android:textColor="@color/darkblue"
+                android:textSize="24sp" />
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="20dp"
+                android:src="@mipmap/down" />
+        </RelativeLayout>
+        <View android:layout_width="1dp"
+            android:layout_height="40dp"
+            android:background="@color/darkblue"
+            android:layout_gravity="center_vertical"></View>
+        <RelativeLayout
+            android:id="@+id/environment"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/bg_box">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="20dp"
+                android:text="环保"
+                android:textColor="@color/darkblue"
+                android:textSize="24sp" />
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="20dp"
+                android:src="@mipmap/down" />
+        </RelativeLayout>
+        <View android:layout_width="1dp"
+            android:layout_height="40dp"
+            android:background="@color/darkblue"
+            android:layout_gravity="center_vertical"></View>
+        <RelativeLayout
+            android:id="@+id/health"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/bg_box">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="20dp"
+                android:text="健康"
+                android:textColor="@color/darkblue"
+                android:textSize="24sp" />
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="20dp"
+                android:src="@mipmap/down" />
+        </RelativeLayout>
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/isave"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:background="@drawable/bg_sesinfo"
+            android:gravity="center"
+            >
+
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_margin="20dp"
+                android:src="@mipmap/iwater" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:text="生活中的节水小技巧"
+                android:textColor="@color/darkblue"
+                android:textSize="22sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ienviro"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:background="@drawable/bg_sesinfo"
+            android:gravity="center"
+            android:visibility="gone">
+
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_margin="20dp"
+                android:src="@mipmap/ienviro" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:text="废水利用小技巧"
+                android:textColor="@color/darkblue"
+                android:textSize="22sp" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/ihealth"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:background="@drawable/bg_sesinfo"
+            android:gravity="center"
+            android:visibility="gone">
+
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_margin="20dp"
+                android:src="@mipmap/ihealth" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:text="正确引用水的频率"
+                android:textColor="@color/darkblue"
+                android:textSize="22sp" />
+        </LinearLayout>
+
+    </RelativeLayout>
+</LinearLayout>
