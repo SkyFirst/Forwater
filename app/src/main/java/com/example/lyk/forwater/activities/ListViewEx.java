@@ -36,10 +36,11 @@ public class ListViewEx extends ListView {
     private boolean isShowPush = false;
     private boolean isShowPull = false;
     private boolean isFullItem;
-    private boolean isLoading=false;
-    private boolean isOpenRefresh=true;
+    private boolean isLoading = false;
+    private boolean isOpenRefresh = true;
     private Runnable runnable;
     private Animation loadAnimation;
+    private MotionEvent motionEvent;
 
     public ListViewEx(Context context) {
         super(context);
@@ -62,38 +63,51 @@ public class ListViewEx extends ListView {
         mScroller = new Scroller(context);
     }
 
+
+
+    public void setHeader(RelativeLayout header) {
+        this.header = header;
+    }
+
     @Override
-    public boolean onInterceptTouchEvent(MotionEvent ev) {
-        int x = (int) ev.getX();
-        int y = (int) ev.getY();
-        boolean intercept = false;
-        switch (ev.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-                intercept = false;
-                if (valueAnimator != null && valueAnimator.isRunning()) {
-                    intercept = true;
-                    valueAnimator.cancel();
-                }
-                if (!mScroller.isFinished()) {
-                    mScroller.abortAnimation();
-                    intercept = true;
-                }
-                break;
-            case MotionEvent.ACTION_MOVE:
-                if (Math.abs(x - oldx) < Math.abs(y - oldy) && Math.abs(y - oldy) > mTouchSlop) {
-                    intercept = true;
-                    oldy2 = -1;
-                } else {
-                    intercept = false;
-                }
-                break;
-            case MotionEvent.ACTION_UP:
-                intercept = false;
-                break;
+    public void computeScroll() {
+        if (mScroller.computeScrollOffset()) {
+            scrollTo(0, mScroller.getCurrY());
+            postInvalidate();
         }
-        oldx = x;
-        oldy = y;
-        return intercept;
+    }
+
+    //添加刷新回调
+    public void setLoadingEvent(Runnable runnable) {
+        this.runnable = runnable;
+    }
+
+    //刷新之后调用
+    public void setIsLoadingFalse(boolean success) {
+        if (loadAnimation == null)
+            return;
+        loadAnimation.cancel();
+        if (success) {
+            header.findViewById(R.id.pullOrPush).setBackgroundResource(R.mipmap.e_15);
+            ((TextView) header.findViewById(R.id.ticker)).setText("刷新成功");
+        } else {
+            header.findViewById(R.id.pullOrPush).setBackgroundResource(R.mipmap.e_11);
+            ((TextView) header.findViewById(R.id.ticker)).setText("刷新失败");
+        }
+        postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                isLoading = false;
+                ViewGroup.MarginLayoutParams marginLayoutParams = (MarginLayoutParams) header.getLayoutParams();
+                marginLayoutParams.height = 0;
+                header.setLayoutParams(marginLayoutParams);
+            }
+        }, 1000);
+
+    }
+
+    public void setRefreshFalse() {
+        isOpenRefresh = false;
     }
 
     @Override
@@ -101,12 +115,12 @@ public class ListViewEx extends ListView {
         int y = (int) ev.getY();
         switch (ev.getAction()) {
             case MotionEvent.ACTION_MOVE:
-                if (oldy2 == -1) {
+               if (oldy2 == -1) {
                     break;
                 }
                 if (isOpenRefresh &&!isLoading) {
                     int dis = -(header.getHeight() + (y - oldy2) / 3);
-                    if((getScrollY() <= 0 && dis < 0 && dis >= maxdistance))
+                    if((getChildCount()==0||(getFirstVisiblePosition()==0&&getChildAt(0).getTop()==0)&&dis < 0 && dis >= maxdistance))
                     {
                         ViewGroup.MarginLayoutParams marginLayoutParams = (MarginLayoutParams) header.getLayoutParams();
                         marginLayoutParams.height = -dis;
@@ -153,15 +167,16 @@ public class ListViewEx extends ListView {
                     }
 
                 }
-                if (getScrollY() + oldy2 - y >= 0&&header.getHeight()==0) {
-                    scrollBy(0, oldy2 - y);
-                } else {
-                    scrollTo(0, 0);
+                if(motionEvent!=null)
+                {
+                    super.onTouchEvent(motionEvent);
+                    motionEvent=null;
+                    super.onTouchEvent(ev);
                 }
                 break;
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_CANCEL:
-                if (isOpenRefresh&&header.getHeight() != 0) {
+                if (isOpenRefresh && header.getHeight() != 0) {
                     if (header.getHeight() > -maxdistance / 3) {
                         valueAnimator = ValueAnimator.ofInt(header.getHeight(), -maxdistance / 6);
                     } else {
@@ -174,91 +189,61 @@ public class ListViewEx extends ListView {
                             MarginLayoutParams marginLayoutParams = (MarginLayoutParams) header.getLayoutParams();
                             marginLayoutParams.height = (int) valueAnimator.getAnimatedValue();
                             header.setLayoutParams(marginLayoutParams);
-                            if((int)valueAnimator.getAnimatedValue()!=0&&(int)valueAnimator.getAnimatedValue()==-maxdistance/6)
-                            {
+                            if ((int) valueAnimator.getAnimatedValue() != 0 && (int) valueAnimator.getAnimatedValue() == -maxdistance / 6) {
                                 header.findViewById(R.id.pullOrPush).setBackgroundResource(R.drawable.src_load);
                                 loadAnimation = new RotateAnimation(0, 360, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
                                 loadAnimation.setDuration(1000);
                                 loadAnimation.setRepeatCount(Animation.INFINITE);
                                 header.findViewById(R.id.pullOrPush).startAnimation(loadAnimation);
                                 ((TextView) header.findViewById(R.id.ticker)).setText("正在刷新");
-                                isLoading=true;
+                                isLoading = true;
                                 new Thread(runnable).start();
                             }
                         }
                     });
                     valueAnimator.start();
                 }
-                if (getScrollY() != 0) {
-                    isFullItem=getFirstVisiblePosition()==0&&getLastVisiblePosition()==getCount()-1;
-                    if (!isFullItem) {
-                        if (getLastVisiblePosition() == getCount() - 1) {
-                            int des = getHeight();
-                            if (getScrollY() < getHeight())
-                                des = getScrollY();
-                            mScroller.startScroll(0, getScrollY(), 0, -des / 2, 500);
-                            invalidate();
-                        }
-
-                    } else {
-                        mScroller.startScroll(0, getScrollY(), 0, -getScrollY(), 500);
-                        invalidate();
-                    }
-
-                }
-
+                super.onTouchEvent(ev);
                 break;
         }
         oldy2 = y;
         return true;
     }
 
-    public void setHeader(RelativeLayout header) {
-        this.header = header;
-    }
-
     @Override
-    public void computeScroll() {
-        if (mScroller.computeScrollOffset()) {
-            scrollTo(0, mScroller.getCurrY());
-            postInvalidate();
+    public boolean onInterceptTouchEvent(MotionEvent ev) {
+        int x = (int) ev.getX();
+        int y = (int) ev.getY();
+        boolean intercept = false;
+        switch (ev.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                intercept = false;
+                motionEvent = MotionEvent.obtain(ev);
+                if (valueAnimator != null && valueAnimator.isRunning()) {
+                    intercept = true;
+                    valueAnimator.cancel();
+                }
+                if (!mScroller.isFinished()) {
+                    mScroller.abortAnimation();
+                    intercept = true;
+                }
+                break;
+            case MotionEvent.ACTION_MOVE:
+                if (Math.abs(x - oldx) < Math.abs(y - oldy) && Math.abs(y - oldy) > mTouchSlop) {
+                    intercept = true;
+                    oldy2 = -1;
+                } else {
+                    intercept = false;
+                }
+                break;
+            case MotionEvent.ACTION_UP:
+                intercept = false;
+                break;
         }
+        oldx = x;
+        oldy = y;
+        return intercept;
     }
-    //添加刷新回调
-    public void setLoadingEvent(Runnable runnable)
-    {
-        this.runnable=runnable;
-    }
-    //刷新之后调用
-    public void setIsLoadingFalse(boolean success)
-    {
-        if(loadAnimation==null)
-            return;
-        loadAnimation.cancel();
-        if(success)
-        {
-            header.findViewById(R.id.pullOrPush).setBackgroundResource(R.mipmap.e_15);
-            ((TextView) header.findViewById(R.id.ticker)).setText("刷新成功");
-        }
-        else
-        {
-            header.findViewById(R.id.pullOrPush).setBackgroundResource(R.mipmap.e_11);
-            ((TextView) header.findViewById(R.id.ticker)).setText("刷新失败");
-        }
-        postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                isLoading=false;
-                ViewGroup.MarginLayoutParams marginLayoutParams = (MarginLayoutParams) header.getLayoutParams();
-                marginLayoutParams.height = 0;
-                header.setLayoutParams(marginLayoutParams);
-            }
-        },1000);
 
-    }
-    public void setRefreshFalse()
-    {
-        isOpenRefresh=false;
-    }
 
 }

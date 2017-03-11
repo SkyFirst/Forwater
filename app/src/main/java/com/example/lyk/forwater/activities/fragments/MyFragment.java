@@ -31,33 +31,38 @@ public class MyFragment extends Fragment {
     private RelativeLayout mMyFeedback;
     private RelativeLayout mRecent;
     private RelativeLayout mContact;
+    private View view;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_my, null);
-        mMyFriend = (RelativeLayout) view.findViewById(R.id.friend);
-        mPaiming = (RelativeLayout) view.findViewById(R.id.paiming);
-        mMyFeedback = (RelativeLayout) view.findViewById(R.id.myfeedback);
-        mRecent = (RelativeLayout) view.findViewById(R.id.recentwater);
-        mContact = (RelativeLayout) view.findViewById(R.id.contact);
-        views = new HashMap<>();
-        views.put(0, mMyFriend);
-        views.put(1, mPaiming);
-        views.put(2, mMyFeedback);
-        views.put(3, mRecent);
-        views.put(4, mContact);
+        if(view==null)
+        {
+            view = inflater.inflate(R.layout.fragment_my, null);
+            mMyFriend = (RelativeLayout) view.findViewById(R.id.friend);
+            mPaiming = (RelativeLayout) view.findViewById(R.id.paiming);
+            mMyFeedback = (RelativeLayout) view.findViewById(R.id.myfeedback);
+            mRecent = (RelativeLayout) view.findViewById(R.id.recentwater);
+            mContact = (RelativeLayout) view.findViewById(R.id.contact);
+            views = new HashMap<>();
+            views.put(0, mMyFriend);
+            views.put(1, mPaiming);
+            views.put(2, mMyFeedback);
+            views.put(3, mRecent);
+            views.put(4, mContact);
 
-        addTouchListener(mMyFriend, 0);
-        addTouchListener(mPaiming,1);
-        addTouchListener(mMyFeedback, 2);
-        addTouchListener(mRecent, 3);
-        addTouchListener(mContact, 4);
+            addTouchListener(mMyFriend, 0);
+            addTouchListener(mPaiming,1);
+            addTouchListener(mMyFeedback, 2);
+            addTouchListener(mRecent, 3);
+            addTouchListener(mContact, 4);
+        }
         return view;
     }
 
     private Map<Integer, View> views;
 
     private void addTouchListener(View view, final int index ){
+        view.setTag(index);
         AidTouchListener aidTouchListener=new AidTouchListener() {
             @Override
             public void start() {
@@ -79,11 +84,9 @@ public class MyFragment extends Fragment {
                         startActivity(new Intent(getContext(), ContactActivity.class));
                         break;
                 }
-                startActivity(new Intent(getContext(), MyFriendsActivity.class));
             }
         };
         TouchListener touchListener = new TouchListener();
-        touchListener.setindex(index);
         touchListener.setViews(views);
         touchListener.setAidTouchListener(aidTouchListener);
         view.setOnTouchListener(touchListener);

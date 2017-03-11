@@ -241,11 +241,16 @@ public class ChatActivity extends AppCompatActivity {
                                         content.put("time", time);
                                         content.put("content", msg);
                                         content.put("header", header_map.get("name"));
-                                        {
-                                            contents.add(content);
+                                        contents.add(content);
+                                        if (myAdapter != null) {
                                             myAdapter.notifyDataSetChanged();
-                                            mShow.setSelection(myAdapter.getCount() - 1);
+                                        } else {
+                                            myAdapter = new MyAdapter(ChatActivity.this, contents, mName);
+                                            mShow.setAdapter(myAdapter);
+
                                         }
+                                        mShow.setSelection(myAdapter.getCount() - 1);
+
                                     }
                                 }
                             });
@@ -340,6 +345,27 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.add) {
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    final char res = userService.sendReq(mName, mFriend, StringUtils.realconvertCalendar(Calendar.getInstance()));
+                    mHandler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            String result;
+                            if (res == DataInfoUtils.SUCCESS)
+                                result = "请求成功";
+                            else if (res == DataInfoUtils.FAILD)
+                                result = "请求失败";
+                            else
+                                result = "您已经请求过了";
+                            Toast.makeText(ChatActivity.this, result, Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+            }).start();
+        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -457,6 +483,8 @@ public class ChatActivity extends AppCompatActivity {
 
     private void loadNew() {
 
+        if(isFinishing())
+            return;
         new Thread(new Runnable() {
             @Override
             public void run() {

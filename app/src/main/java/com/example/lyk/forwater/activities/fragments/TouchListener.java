@@ -41,6 +41,7 @@ public class TouchListener implements View.OnTouchListener {
         int y = (int) ev.getRawY();
         switch (ev.getAction()) {
             case MotionEvent.ACTION_DOWN:
+                index=(int)view.getTag();
                 oldTop = (int) view.getY();
                 time = System.currentTimeMillis();
                 isFirst = true;
@@ -69,7 +70,7 @@ public class TouchListener implements View.OnTouchListener {
                 }
                 isFirst = false;
                 if (isLong) {
-                    if (Math.abs(x - oldx) < Math.abs(y - oldy) && view.getTop() + y - oldy >= 0) {
+                    if (Math.abs(x - oldx) < Math.abs(y - oldy) && view.getY() + y - oldy >= 0) {
                         objectAnimator = objectAnimator.ofFloat(view, "y", view.getY(), view.getY() + y - oldy);
                         objectAnimator.setDuration(0);
                         objectAnimator.start();
@@ -86,6 +87,8 @@ public class TouchListener implements View.OnTouchListener {
                                     oldTop = temp;
                                     views.put(index, view);
                                     views.put(index - 1, v2);
+                                    view.setTag(index);
+                                    v2.setTag(index-1);
 
                                 }
 
@@ -100,6 +103,8 @@ public class TouchListener implements View.OnTouchListener {
                                     oldTop = temp;
                                     views.put(index, view);
                                     views.put(index + 1, v2);
+                                    view.setTag(index);
+                                    v2.setTag(index+1);
                                 }
                             }
                         }
@@ -162,9 +167,6 @@ public class TouchListener implements View.OnTouchListener {
         //36378464
     }
 
-    public void setindex(int index) {
-        this.index = index;
-    }
 
     public void setViews(Map<Integer, View> views) {
         this.views = views;
@@ -172,6 +174,6 @@ public class TouchListener implements View.OnTouchListener {
 
     public void setAidTouchListener(AidTouchListener aidTouchListener)
     {
-        aidTouchListener.start();
+        this.aidTouchListener=aidTouchListener;
     }
 }

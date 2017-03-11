@@ -10,5 +10,6 @@
     <color name="black_overlay">#66000000</color>
     <color name="transparent">#200000f0</color>
     <color name="totalTransparent">#00000000</color>
+    <color name="transpa">#00000000</color>
 
 </resources>

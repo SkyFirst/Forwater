@@ -160,6 +160,11 @@ public class DataInfoUtils {
                 .setNegativeButton("取消", null).setCancelable(true).show();
     }
 
+    /**
+     *
+     * 对回复的内容进行整理排序
+     *
+     */
     public static List<Map<String, String>> sort(List<Map<String, String>> src) {
         List<Map<String, String>> end = new ArrayList<>();
         for (int i = 0; i < src.size(); i++) {

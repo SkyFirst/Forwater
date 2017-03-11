@@ -60,15 +60,17 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public boolean praise(String name, String type, int id) {
+    public char praise(String name, String type, int id) {
         Map<String, String> maps = new HashMap<>();
         maps.put("name", name);
         maps.put("id", id + "");
         maps.put("type", type);
         String res = HttpConnect.Connect(HttpConnect.URL + "praise", maps);
-        if (res != null)
-            return true;
-        return false;
+        if (res == null)
+            return DataInfoUtils.FAILD;
+        if(res.equals(OK))
+            return DataInfoUtils.SUCCESS;
+        return DataInfoUtils.HAS;
     }
 
     @Override
@@ -145,12 +147,17 @@ public class UserService implements IUserService {
     @Override
     public Bitmap getHeader(String name, String url) {
         String img = null;
-        if ((img = HttpConnect.Connect(url, name)) != null) {
-            JSONObject jsonObject = JSONObject.fromObject(img);
-            String res = jsonObject.getString("img");
-            byte[] bt = Base64.decode(res, Base64.DEFAULT);
-            Bitmap bitmap = BitmapFactory.decodeByteArray(bt, 0, bt.length);
-            return bitmap;
+        try {
+            if ((img = HttpConnect.Connect(url, name)) != null) {
+                JSONObject jsonObject = JSONObject.fromObject(img);
+                String res = jsonObject.getString("img");
+                byte[] bt = Base64.decode(res, Base64.DEFAULT);
+                Bitmap bitmap = BitmapFactory.decodeByteArray(bt, 0, bt.length);
+                return bitmap;
+            }
+        }catch (Exception e)
+        {
+
         }
         return null;
     }
@@ -283,19 +290,45 @@ public class UserService implements IUserService {
         List<Map<String,Object>> feedbacks=new ArrayList<>();
         if(res.equals(NORESULT))
             return feedbacks;
-        JSONArray jsonArray = JSONArray.fromObject(res);
-        for (int i = 0; i < jsonArray.size(); i++)
+        try {
+            JSONArray jsonArray = JSONArray.fromObject(res);
+            for (int i = 0; i < jsonArray.size(); i++)
+            {
+                JSONObject jsonObject=jsonArray.getJSONObject(i);
+                Map<String,Object> feedback=new HashMap<>();
+                feedback.put("name",jsonObject.getString("name"));
+                feedback.put("content",jsonObject.getString("content"));
+                feedback.put("id",jsonObject.getInt("id"));
+                feedback.put("time",jsonObject.getString("time"));
+                feedback.put("img",BitmapFactory.decodeResource(context.getResources(), R.mipmap.water));
+                feedbacks.add(feedback);
+            }
+            return feedbacks;
+        }catch (Exception e)
         {
-            JSONObject jsonObject=jsonArray.getJSONObject(i);
-            Map<String,Object> feedback=new HashMap<>();
-            feedback.put("name",jsonObject.getString("name"));
-            feedback.put("content",jsonObject.getString("content"));
-            feedback.put("id",jsonObject.getInt("id"));
-            feedback.put("time",jsonObject.getString("time"));
-            feedback.put("img",BitmapFactory.decodeResource(context.getResources(), R.mipmap.water));
-            feedbacks.add(feedback);
+
         }
-        return feedbacks;
+        return null;
+
 
     }
+    public List<String> getFriends(String name,int index)
+    {
+        String res=HttpConnect.Connect(HttpConnect.URL+"getfriends",name+" "+index);
+        if(res==null)
+        {
+            return null;
+        }
+        if(res.equals(NORESULT))
+            return new ArrayList<>();
+        List<String> friends=new ArrayList<>();
+        JSONArray jsonArray=JSONArray.fromObject(res);
+        for(int i=0;i<jsonArray.size();i++)
+        {
+            friends.add(jsonArray.getJSONObject(i).getString("name"));
+
+        }
+        return friends;
+    }
+
 }

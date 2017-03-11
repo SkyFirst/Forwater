@@ -38,6 +38,7 @@
         android:dividerHeight="1dp"
         android:layout_marginLeft="10dp"
         android:divider="@drawable/bg_divider"
+        android:layoutAnimation="@anim/layoutanimation_listview"
 
         />
 

@@ -24,42 +24,56 @@ import static android.util.Base64.decode;
 
 public class InfoSevice implements IInfoService {
     @Override
+    /**
+     * 解析新闻信息
+     */
     public Object[] getInfo(String url, String time) {
         Object[] objects = null;
         String result = HttpConnect.Connect(url, time);
         if (result == null)
             return null;
-        JSONObject jsonObject = JSONObject.fromObject(result);
-        int size = jsonObject.getInt("size");
-        objects = new Object[size + 6];
-        if (size != 0) {
-            for (int i = 0; i < size; i++) {
-                try {
-                    byte[] by = decode(jsonObject.getString("" + i), android.util.Base64.DEFAULT);
-                    Bitmap bitmap = BitmapFactory.decodeByteArray(by, 0, by.length);
-                    ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
-                    byteArrayOutputStream.close();
-                    objects[i] = bitmap;
-                } catch (Exception e) {
-                    objects = null;
-                    break;
+        try {
+            JSONObject jsonObject = JSONObject.fromObject(result);
+            /*
+            *size 新闻中的图片数量
+            * 6 表示 文章标题 文章发布时间 文章访问量 文章ID
+            * 文章的文字内容 文章被点赞的次数
+            * */
+            int size = jsonObject.getInt("size");
+            objects = new Object[size + 6];
+            if (size != 0) {
+                for (int i = 0; i < size; i++) {
+                    try {
+                        byte[] by = decode(jsonObject.getString("" + i), android.util.Base64.DEFAULT);
+                        Bitmap bitmap = BitmapFactory.decodeByteArray(by, 0, by.length);
+                        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
+                        byteArrayOutputStream.close();
+                        objects[i] = bitmap;
+                    } catch (Exception e) {
+                        objects = null;
+                        break;
+                    }
+
+
                 }
-
-
             }
+            if (objects == null) {
+                objects = new Object[6];
+                size = 0;
+            }
+            objects[size] = jsonObject.getString("title");
+            objects[size + 1] = jsonObject.getString("time");
+            objects[size + 2] = jsonObject.getString("content").toString();
+            objects[size + 3] = jsonObject.getInt("id");
+            objects[size + 4] = jsonObject.getInt("acess");
+            objects[size + 5] = jsonObject.getInt("gcomt");
+            return objects;
+        }catch (Exception e)
+        {
+
         }
-        if (objects == null) {
-            objects = new Object[6];
-            size = 0;
-        }
-        objects[size] = jsonObject.getString("title");
-        objects[size + 1] = jsonObject.getString("time");
-        objects[size + 2] = jsonObject.getString("content").toString();
-        objects[size + 3] = jsonObject.getInt("id");
-        objects[size + 4] = jsonObject.getInt("acess");
-        objects[size + 5] = jsonObject.getInt("gcomt");
-        return objects;
+      return null;
     }
 
     @Override
@@ -69,11 +83,18 @@ public class InfoSevice implements IInfoService {
         if (result == null) {
             return null;
         }
+        try
+        {
+
+        }catch (Exception e)
+        {
+
+        }
         JSONObject jsonObject = JSONObject.fromObject(result);
         for (int i = 0; i < 6; i++) {
+            try {
             String file = jsonObject.getString("img" + (i + 1));
             byte[] img = Base64.decode(file, Base64.DEFAULT);
-            try {
                 Bitmap bitmap = BitmapFactory.decodeByteArray(img, 0, img.length);
                 if (bitmap == null)
                     return null;

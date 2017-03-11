@@ -46,6 +46,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.example.lyk.forwater.R.id.replay;
 import static com.example.lyk.forwater.utils.DataInfoUtils.dip2px;
 import static com.example.lyk.forwater.utils.DataInfoUtils.px2dip;
 
@@ -94,6 +95,7 @@ public class InfoActivity extends AppCompatActivity {
         acess = (TextView) findViewById(R.id.acess);
         pnum = (TextView) findViewById(R.id.p_num);
         praise = (ImageView) findViewById(R.id.praise);
+        //点赞处理
         praise.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -104,8 +106,8 @@ public class InfoActivity extends AppCompatActivity {
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
-                            boolean res = userService.praise(real, type, Integer.parseInt(titleId.trim()));
-                            if (res) {
+                            char res = userService.praise(real, type, Integer.parseInt(titleId.trim()));
+                            if (res == DataInfoUtils.SUCCESS) {
                                 mhander.post(new Runnable() {
                                     @Override
                                     public void run() {
@@ -113,11 +115,18 @@ public class InfoActivity extends AppCompatActivity {
                                         praise.setBackgroundResource(R.mipmap.praise2);
                                     }
                                 });
-                            } else
+                            } else if (res == DataInfoUtils.HAS) {
                                 mhander.post(new Runnable() {
                                     @Override
                                     public void run() {
                                         Toast.makeText(InfoActivity.this, "您已经点过赞了", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                            } else
+                                mhander.post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Toast.makeText(InfoActivity.this, "点赞失败", Toast.LENGTH_SHORT).show();
                                     }
                                 });
                         }
@@ -126,6 +135,7 @@ public class InfoActivity extends AppCompatActivity {
                     DataInfoUtils.login(InfoActivity.this);
             }
         });
+        //评论或者查询
         fab_add = (FloatingActionButton) findViewById(R.id.fab_add);
         fab_add.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -142,6 +152,10 @@ public class InfoActivity extends AppCompatActivity {
         mToolbar.setTitle("返回");
         mDivder = findViewById(R.id.divder);
         mComment = (Button) findViewById(R.id.load_comm);
+        /**
+         *
+         * 获得评论
+         */
         mComment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -215,9 +229,9 @@ public class InfoActivity extends AppCompatActivity {
                         mComment.setText("没有更多了");
                     } else {
                         mComment.setText("加载更多");
-                        mIndex =Integer.valueOf(lists.get(lists.size()-1).get("id").toString());
-                        if (mIndex==0)
-                            mIndex=-1;
+                        mIndex = Integer.valueOf(lists.get(lists.size() - 1).get("id").toString());
+                        if (mIndex == 0)
+                            mIndex = -1;
                         initComment(lists);
                         Toast.makeText(InfoActivity.this, "已为您更新" + lists.size() + "条评论", Toast.LENGTH_SHORT).show();
                     }
@@ -233,6 +247,10 @@ public class InfoActivity extends AppCompatActivity {
     }
 
 
+    /**
+     *
+     *动态添加图片
+     */
     private ImageButton getImageView(final Bitmap bitmap) {
         final ImageButton imageButton = new ImageButton(InfoActivity.this);
         LinearLayout.LayoutParams layoutParams1 = new LinearLayout.LayoutParams(dip2px(this, 300), dip2px(this, 300));
@@ -261,6 +279,10 @@ public class InfoActivity extends AppCompatActivity {
         return imageButton;
     }
 
+    /**
+     *
+     *动态添加文字
+     */
     private TextView getTextView() {
         TextView textView = new TextView(this);
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -272,6 +294,10 @@ public class InfoActivity extends AppCompatActivity {
         return textView;
     }
 
+    /**
+     *获取新闻
+     *
+     */
     private void getBitmap(final Calendar calendar) {
         DataInfoUtils.showOrDismissDlg(true, InfoActivity.this);
         new Thread(new Runnable() {
@@ -289,7 +315,12 @@ public class InfoActivity extends AppCompatActivity {
 
     }
 
-
+    /**
+     *
+     *对新闻内容进行解析
+     * 每个@@@@@代表一张图片
+     * 在返回结果中null表示图片
+     */
     private List<String> getFromContent(String content) {
         List<String> list = new ArrayList<String>();
         int temp = 0;
@@ -321,6 +352,10 @@ public class InfoActivity extends AppCompatActivity {
     }
 
 
+    /**
+     *展示新闻
+     *
+     */
     private void showResult() {
         mIndex = 0;
         mComment.setText("加载评论");
@@ -332,7 +367,8 @@ public class InfoActivity extends AppCompatActivity {
         titleId = objects[size - 3].toString();
         if (size == 6) {
             TextView textView = getTextView();
-            textView.setText(objects[2].toString());
+            String content=objects[2].toString().replaceAll("@@@@@","");
+            textView.setText(content);
             mlinearLayout.addView(textView);
         } else {
             int imagesize = size - 6;
@@ -355,6 +391,10 @@ public class InfoActivity extends AppCompatActivity {
         objects = null;
     }
 
+    /**
+     *
+     *显示评论
+     */
     private void initComment(List<Map<String, Object>> lists) {
         for (int i = 0; i < lists.size(); i++) {
             View view = LayoutInflater.from(InfoActivity.this).inflate(R.layout.comment_basic, null);
@@ -399,7 +439,7 @@ public class InfoActivity extends AppCompatActivity {
                 }).start();
             }
             final TextView textView = ((TextView) view.findViewById(R.id.c_content));
-            DataInfoUtils.paeseEmotion(map.get("content").toString(),textView);
+            DataInfoUtils.paeseEmotion(map.get("content").toString(), textView);
             textView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -418,6 +458,10 @@ public class InfoActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     *
+     *发送回复
+     */
     private void sentReplay(final String rep, final String id, final LinearLayout parent, final View view) {
         final IUserService userService = new UserService();
         if (userService.getName(InfoActivity.this) == null) {
@@ -426,7 +470,7 @@ public class InfoActivity extends AppCompatActivity {
         }
         //   final EditText editText = new EditText(InfoActivity.this);
         String title = "回复" + rep;
-        if (title.contains(userService.getName(InfoActivity.this)))
+        if (rep.equals(userService.getName(InfoActivity.this)))
             title = "追加";
         showDialog(title, new View.OnClickListener() {
             @Override
@@ -475,6 +519,9 @@ public class InfoActivity extends AppCompatActivity {
 
     }
 
+    /**
+     *添加回复
+     */
     private void addReplayView(final Map<String, String> rep, final LinearLayout parent, View view) {
         final TextView textView1 = new TextView(InfoActivity.this);
         textView1.setTextSize(18);
@@ -646,7 +693,7 @@ public class InfoActivity extends AppCompatActivity {
                 popupWindow.dismiss();
             }
         });
-        editText_rep = (EditText) pop.findViewById(R.id.replay);
+        editText_rep = (EditText) pop.findViewById(replay);
         final LinearLayout parentOfPager = (LinearLayout) pop.findViewById(R.id.linear_emotions);
         GridView gridViewLeft = DataInfoUtils.getGridview(InfoActivity.this, 0);
         DataInfoUtils.setPagerClick(editText_rep, gridViewLeft, 0);

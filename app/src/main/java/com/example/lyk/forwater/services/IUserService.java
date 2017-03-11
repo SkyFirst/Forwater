@@ -24,7 +24,7 @@ public interface IUserService {
     int sendReplay(String cont,String rep,String rec,String id,String rid,String url);
     boolean sendHeader(Bitmap bitmap,String name,String url);
     Bitmap getHeader(String name,String url);
-    boolean praise(String name,String type,int id);
+    char praise(String name,String type,int id);
     boolean sendMsg(String fromer,String toer,String time,String content);
     List<Map<String,Object>> getMsg(String fromer,String toer,int index,String type);
     char sendReq(String fromer,String toer,String time);
@@ -32,5 +32,6 @@ public interface IUserService {
     char isFriend(String fromer,String toer);
     char sendRep(String fromer,String toer,String rep);
     List<Map<String,Object>> getFeedBacks(int index,int pid,Context context);
+    List<String> getFriends(String name,int index);
 
 }

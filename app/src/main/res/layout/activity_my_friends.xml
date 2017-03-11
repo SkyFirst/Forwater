@@ -21,6 +21,10 @@
         android:id="@+id/listview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:divider="@drawable/bg_divider"></ListView>
+        android:divider="@drawable/bg_divider"
+        android:background="@android:color/white"
+        android:dividerHeight="1dp"
+        android:layoutAnimation="@anim/layoutanimation_listview"
+     ></ListView>
 
 </LinearLayout>

@@ -47,13 +47,20 @@
             android:exported="false"
             android:process=":remote" />
 
-        <activity android:name=".activities.AddFriendActivity" />
-        <activity android:name=".activities.FeedbackActivity" />
-        <activity android:name=".activities.MyFriendsActivity" />
-        <activity android:name=".activities.RecentActivity" />
-        <activity android:name=".activities.RankingActivity" />
-        <activity android:name=".activities.MyFeedbackActivity" />
-        <activity android:name=".activities.ContactActivity"></activity>
+        <activity android:name=".activities.AddFriendActivity"
+            android:theme="@style/transparent"/>
+        <activity android:name=".activities.FeedbackActivity"
+            android:theme="@style/transparent"/>
+        <activity android:name=".activities.MyFriendsActivity"
+            android:theme="@style/transparent"/>
+        <activity android:name=".activities.RecentActivity"
+            android:theme="@style/transparent"/>
+        <activity android:name=".activities.RankingActivity"
+            android:theme="@style/transparent"/>
+        <activity android:name=".activities.MyFeedbackActivity"
+            android:theme="@style/transparent"/>
+        <activity android:name=".activities.ContactActivity"
+            android:theme="@style/transparent"></activity>
     </application>
 
 </manifest>

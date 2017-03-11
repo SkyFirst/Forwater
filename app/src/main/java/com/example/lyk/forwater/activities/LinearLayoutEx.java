@@ -19,6 +19,7 @@ public class LinearLayoutEx extends LinearLayout {
     public Scroller mScroller;
     private boolean isend = true;
     private TouchListener touchListener;
+    private boolean isClick=true;
     public LinearLayoutEx(Context context) {
         super(context);
         distance = DataInfoUtils.dip2px(context, 160);
@@ -45,6 +46,7 @@ public class LinearLayoutEx extends LinearLayout {
         boolean intercept = false;
         switch (ev.getAction()) {
             case MotionEvent.ACTION_DOWN:
+                isClick=true;
                 intercept = false;
                 if (!mScroller.isFinished()) {
                     mScroller.abortAnimation();
@@ -54,6 +56,7 @@ public class LinearLayoutEx extends LinearLayout {
             case MotionEvent.ACTION_MOVE:
                 if (Math.abs(x - interceptOldx) != 0) {
                     oldx = -1;
+                    isClick=false;
                     intercept = true;
                 } else {
                     intercept = false;
@@ -77,6 +80,7 @@ public class LinearLayoutEx extends LinearLayout {
                 }
                 break;
             case MotionEvent.ACTION_MOVE:
+                isClick=false;
                 if (ListViewEx.linearLayout != null && !ListViewEx.linearLayout.equals(this) && isend) {
                     isend = false;
                     ListViewEx.linearLayout.mScroller.startScroll(ListViewEx.linearLayout.getScrollX(), 0, -ListViewEx.linearLayout.getScrollX(), 0, 100);
@@ -97,24 +101,16 @@ public class LinearLayoutEx extends LinearLayout {
                 }
                 break;
             case MotionEvent.ACTION_UP:
-            case MotionEvent.ACTION_CANCEL:
-                if(oldx==-1||getScrollX()!=0) {
-                    if (getScrollX() == distance)
-                    {
-                        mScroller.startScroll(distance,0,-distance,0,500);
-                    }
-                    else
-                    {
+                if(getScrollX()!=0) {
                         int des;
                         if (getScrollX() > distance / 2) {
                             des = distance - getScrollX();
                         } else
                             des = -getScrollX();
                         mScroller.startScroll(getScrollX(), 0, des, 0, 500);
-                    }
                     invalidate();
                 }
-                else if(touchListener!=null&&event.getAction()!=MotionEvent.ACTION_CANCEL)
+                else if(touchListener!=null&&isClick)
                 {
                     touchListener.onTouch();
                 }
